@@ -37,6 +37,27 @@ class _HomeScreenState extends State<HomeScreen> {
 
   void onHeartPressed() {
     setState(() {
+      showCupertinoDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return Align(
+            alignment: Alignment.bottomCenter,
+            child: Container(
+              color: Colors.white,
+              height: 300,
+              child: CupertinoDatePicker(
+                mode: CupertinoDatePickerMode.date,
+                onDateTimeChanged: (DateTime date) {
+                  setState(() {
+                    firstDay = date;
+                  });
+                },
+              ),
+            ),
+          );
+        },
+        barrierDismissible: true,
+      );
       firstDay = firstDay.subtract(Duration(days: 1));
     });
   }
