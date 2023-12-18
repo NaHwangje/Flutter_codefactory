@@ -5,7 +5,6 @@ void main() {
 }
 
 class SplashScreen extends StatelessWidget {
-
   //위젯의 UI 구현
   @override
   Widget build(BuildContext context) {
@@ -13,10 +12,26 @@ class SplashScreen extends StatelessWidget {
       home: Scaffold(
         body: Container(
           decoration: BoxDecoration(
-            color: Colors.orange,
+            color: Color(0xfff99231),
           ),
-          child: Center(
-            child: Text('Splash Screen'),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Image.asset(
+                    'assets/logo.png',
+                    width: 200,
+                  ),
+                  CircularProgressIndicator(
+                    valueColor: AlwaysStoppedAnimation(
+                      Colors.white,
+                    ),
+                  ),
+                ],
+              ),
+            ],
           ),
         ),
       ),
