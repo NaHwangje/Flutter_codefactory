@@ -14,16 +14,8 @@ class RootScreen extends StatefulWidget {
 class _RootScreenState extends State<RootScreen> with TickerProviderStateMixin {
   TabController? controller;
   double threshold = 2.7;
-  int number = 1;
+  int number = 1; //주사위 숫자
   ShakeDetector? shakeDetector;
-
-  void onPhoneShake() {
-    final rand = new Random();
-
-    setState(() {
-      number = rand.nextInt(5) + 1;
-    });
-  }
 
   @override
   void initState() {
@@ -33,12 +25,20 @@ class _RootScreenState extends State<RootScreen> with TickerProviderStateMixin {
     //컨트롤러 속성이 변경 될 때마다 실행할 함수 등록
     controller!.addListener(tabListener);
 
-    shakeDetector = shakeDetector.autoStart(
+    shakeDetector = ShakeDetector.autoStart(
       //흔들기 감지 시작
       shakeSlopTimeMS: 100, //감지 주기
       shakeThresholdGravity: threshold, // 감지 민감도
       onPhoneShake: onPhoneShake, // 감지 후 실행할 함수
     );
+  }
+
+  void onPhoneShake() {
+    final rand = new Random();
+
+    setState(() {
+      number = rand.nextInt(5) + 1;
+    });
   }
 
   @override
