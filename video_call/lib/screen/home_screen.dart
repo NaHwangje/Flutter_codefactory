@@ -31,9 +31,8 @@ class _Logo extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: Container(
-        decoration: BoxDecoration(
-            color: Colors.blue,
-            borderRadius: BorderRadius.circular(16.0), //모서리 둥글게
+
+
             //그림자 추가
             boxShadow: [
               BoxShadow(
@@ -53,12 +52,14 @@ class _Logo extends StatelessWidget {
                 size: 40.0,
               ),
               SizedBox(width: 12.0),
-              Text('Live',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 30.0,
-                    letterSpacing: 4.0,
-                  ))
+              Text(
+                'Live',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 30.0,
+                  letterSpacing: 4.0,
+                ),
+              ),
             ],
           ),
         ),

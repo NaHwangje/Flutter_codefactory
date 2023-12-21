@@ -71,8 +71,8 @@ class _CamScreenState extends State<CamScreen> {
       await engine!.startPreview();
       // 채널에 들어가기
       await engine!.joinChannel(
-        token: TEMP_TOKEN,
-        channelId: CHANNEL_NAME,
+        token: 'TEMP_TOKEN',
+        channelId: 'CHANNEL_NAME',
         uid: 0,
         options: ChannelMediaOptions(),
       );
@@ -162,7 +162,7 @@ class _CamScreenState extends State<CamScreen> {
         controller: VideoViewController.remote(
           rtcEngine: engine!,
           canvas: VideoCanvas(uid: otherUid),
-          connection: const RtcConnection(channelId: CHANNEL_NAME),
+          connection: const RtcConnection(channelId: 'CHANNEL_NAME'),
         ),
       );
     } else {
