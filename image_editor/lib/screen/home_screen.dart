@@ -1,9 +1,17 @@
 import 'dart:io';
+import 'dart:typed_data';
+import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
+import 'package:flutter/services.dart';
+import 'package:image_editor/component/emotion_sticker.dart';
 import 'package:image_editor/component/footer.dart';
 import 'package:image_editor/component/main_app_bar.dart';
+import 'package:image_editor/model/sticker_model.dart';
+import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:uuid/uuid.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -14,6 +22,9 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   XFile? image;
+  Set<StickerModel> stickers = {};
+  String? selectedId;
+  GlobalKey imgKey = GlobalKey();
 
   @override
   Widget build(BuildContext context) {
@@ -48,11 +59,31 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Widget renderBody() {
     if (image != null) {
-      return Positioned.fill(
-        child: InteractiveViewer(
-          child: Image.file(
-            File(image!.path),
-            fit: BoxFit.cover,
+      return RepaintBoundary(
+        key: imgKey,
+        child: Positioned.fill(
+          child: InteractiveViewer(
+            child: Stack(
+              fit: StackFit.expand,
+              children: [
+                Image.file(
+                  File(image!.path),
+                  fit: BoxFit.cover,
+                ),
+                ...stickers.map(
+                  (sticker) => Center(
+                    child: EmotionSticker(
+                      key: ObjectKey(sticker.id),
+                      onTransform: () {
+                        onTransform(sticker.id);
+                      },
+                      imgPath: sticker.imgPath,
+                      isSelected: selectedId == sticker.id,
+                    ),
+                  ),
+                )
+              ],
+            ),
           ),
         ),
       );
@@ -69,7 +100,17 @@ class _HomeScreenState extends State<HomeScreen> {
     }
   }
 
-  void onEmoticonTap(int index) {}
+  void onEmoticonTap(int index) async {
+    setState(() {
+      stickers = {
+        ...stickers,
+        StickerModel(
+          id: Uuid().v4(),
+          imgPath: 'asset/img/emoticon_$index.png',
+        ),
+      };
+    });
+  }
 
   void onPickImage() async {
     final image = await ImagePicker().pickImage(source: ImageSource.gallery);
@@ -79,8 +120,32 @@ class _HomeScreenState extends State<HomeScreen> {
     });
   }
 
-  void onDeleteItem() {}
+  void onDeleteItem() async {
+    setState(() {
+      stickers =
+          stickers.where((stickers) => stickers.id != selectedId).toSet();
+    });
+  }
 
-  void onSaveImage() {}
+  void onSaveImage() async {
+    RenderRepaintBoundary boundary =
+        imgKey.currentContext!.findRenderObject() as RenderRepaintBoundary;
+    ui.Image image = await boundary.toImage();
+    ByteData? byteData = await image.toByteData(format: ui.ImageByteFormat.png);
+    Uint8List pngByte = byteData!.buffer.asUint8List();
 
+    await ImageGallerySaver.saveImage(pngByte, quality: 100);
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text('저장되었습니다!'),
+      ),
+    );
+  }
+
+  void onTransform(String id) {
+    setState(() {
+      selectedId = id;
+    });
+  }
 }
