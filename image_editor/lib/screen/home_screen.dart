@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:image_editor/component/footer.dart';
 import 'package:image_editor/component/main_app_bar.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -18,6 +21,7 @@ class _HomeScreenState extends State<HomeScreen> {
       body: Stack(
         fit: StackFit.expand,
         children: [
+          renderBody(),
           Positioned(
             top: 0,
             left: 0,
@@ -27,11 +31,45 @@ class _HomeScreenState extends State<HomeScreen> {
               onDeleteItem: onDeleteItem,
               onSaveImage: onSaveImage,
             ),
-          )
+          ),
+          if (image != null)
+            Positioned(
+              bottom: 0,
+              left: 0,
+              right: 0,
+              child: Footer(
+                onEmoticonTap: onEmoticonTap,
+              ),
+            )
         ],
       ),
     );
   }
+
+  Widget renderBody() {
+    if (image != null) {
+      return Positioned.fill(
+        child: InteractiveViewer(
+          child: Image.file(
+            File(image!.path),
+            fit: BoxFit.cover,
+          ),
+        ),
+      );
+    } else {
+      return Center(
+        child: TextButton(
+          style: TextButton.styleFrom(
+            foregroundColor: Colors.grey,
+          ),
+          onPressed: onPickImage,
+          child: Text('이미지 선택하기'),
+        ),
+      );
+    }
+  }
+
+  void onEmoticonTap(int index) {}
 
   void onPickImage() async {
     final image = await ImagePicker().pickImage(source: ImageSource.gallery);
@@ -44,4 +82,5 @@ class _HomeScreenState extends State<HomeScreen> {
   void onDeleteItem() {}
 
   void onSaveImage() {}
+
 }
