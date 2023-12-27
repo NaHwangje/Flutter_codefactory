@@ -1,9 +1,9 @@
 import 'package:calender_scheduler/component/custom_text_field.dart';
 import 'package:calender_scheduler/const/colors.dart';
-import 'package:calender_scheduler/database/drift_database.dart';
-import 'package:drift/drift.dart' hide Column;
+import 'package:calender_scheduler/model/schedule_model.dart';
+import 'package:calender_scheduler/provider/schedule_provider.dart';
 import 'package:flutter/material.dart';
-import 'package:get_it/get_it.dart';
+import 'package:provider/provider.dart';
 
 class ScheduleBottomSheet extends StatefulWidget {
   final DateTime selectedDate;
@@ -82,7 +82,7 @@ class _ScheduleBottomSheetState extends State<ScheduleBottomSheet> {
                 SizedBox(
                   width: double.infinity,
                   child: ElevatedButton(
-                    onPressed: onSavePressed,
+                    onPressed: () => onSavePressed(context),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: PRIMARY_COLOR,
                     ),
@@ -97,18 +97,19 @@ class _ScheduleBottomSheetState extends State<ScheduleBottomSheet> {
     );
   }
 
-  void onSavePressed() async {
+  void onSavePressed(BuildContext context) async {
     if (formKey.currentState!.validate()) {
       formKey.currentState!.save();
 
-      await GetIt.I<LocalDatabase>().createSchedule(
-        SchedulesCompanion(
-          startTime: Value(startTime!),
-          endTime: Value(endTime!),
-          content: Value(content!),
-          date: Value(widget.selectedDate),
-        ),
-      );
+      context.read<ScheduleProvider>().createSchedule(
+            schedule: ScheduleModel(
+              id: 'new_model',
+              content: content!,
+              date: widget.selectedDate,
+              startTime: startTime!,
+              endTime: endTime!,
+            ),
+          );
 
       Navigator.of(context).pop();
     }
