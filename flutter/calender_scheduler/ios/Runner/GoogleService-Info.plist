@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>API_KEY</key>
+	<string>AIzaSyDBg98qa9R4Qbx5-a8Nrfzdhq6yQ063dUs</string>
+	<key>GCM_SENDER_ID</key>
+	<string>1021980930147</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.example.calenderScheduler</string>
+	<key>PROJECT_ID</key>
+	<string>calender-scheduler-af89-e006d</string>
+	<key>STORAGE_BUCKET</key>
+	<string>calender-scheduler-af89-e006d.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:1021980930147:ios:cbe4313d378ead39e8c856</string>
+</dict>
+</plist>
