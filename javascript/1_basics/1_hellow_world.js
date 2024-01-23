@@ -1,2 +1,2 @@
-console.log('Hellow World');
-console.log('Hellow', 'World');
+console.log('Hello World');
+console.log('Hello', 'World');

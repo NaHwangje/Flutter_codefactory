@@ -56,7 +56,7 @@ const symbol2 = Symbol("1");
 console.log(symbol1 === symbol2);
 
 /**
- * Obhect 타입
+ * Object 타입
  *
  * Map
  * 키: 벨류의 쌍으로 이루어져 있다.
