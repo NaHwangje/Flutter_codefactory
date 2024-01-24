@@ -84,3 +84,4 @@ function multiply6(x) {
     console.log(4*5);
 })()
 
+
