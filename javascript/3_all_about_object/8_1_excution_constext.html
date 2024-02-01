@@ -1,0 +1,17 @@
+<script>
+    function one() {
+        console.log('run one')
+        console.log('run one funished')
+    }
+    function two() {
+        console.log('run two')
+        one()
+        console.log('run two funished')
+    }
+    function three() {
+        console.log('run three')
+        two()
+        console.log('run three funished')
+    }
+    three();
+</script>
