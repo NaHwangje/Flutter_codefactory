@@ -66,3 +66,4 @@ getPromise(1)
   ]).then((res)=>{
     console.log(res);
   })
+  main
